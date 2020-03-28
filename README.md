@@ -2,8 +2,8 @@
 https://www.students.cs.ubc.ca/~cs-221/2019W2/mps/p3/
  
 #to-do lists:
-    In class stats:
 
+    In class stats:
         long getSum(char channel, pair<int,int> ul, pair<int,int> lr)
         long getSumSq(char channel, pair<int,int> ul, pair<int,int> lr)
         stats(PNG & im)
@@ -12,7 +12,6 @@ https://www.students.cs.ubc.ca/~cs-221/2019W2/mps/p3/
         long rectArea(pair<int,int> ul, pair<int,int> lr)
 
     In class twoDtree:
-
         void clear()
         void copy(const twoDtree & other)
         twoDtree(PNG & imIn)
