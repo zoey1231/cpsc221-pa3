@@ -19,42 +19,59 @@ int main()
 
 
 	// read in image
-	PNG origIm1;
-	origIm1.readFromFile("images/stanley-totem-poles.png");
-	PNG origIm2;
-	origIm2.readFromFile("images/ubc-totem-poles.png");
-	PNG origIm3;
-	origIm3.readFromFile("images/remb.png");
-	PNG origIm4;
-	origIm4.readFromFile("images/rosa.png");
+	// PNG origIm1;
+	// origIm1.readFromFile("images/stanley-totem-poles.png");
+	// PNG origIm2;
+	// origIm2.readFromFile("images/ubc-totem-poles.png");
+	// PNG origIm3;
+	// origIm3.readFromFile("images/remb.png");
+	// PNG origIm4;
+	// origIm4.readFromFile("images/rosa.png");
+	PNG origIm;
+	origIm.readFromFile("images/100x100.png");
 
 	// use it to build a twoDtree
-	twoDtree t1(origIm1);
-	twoDtree tCopy1(t1);
-	twoDtree t2(origIm2);
-	twoDtree tCopy2(t2);
-	twoDtree t3(origIm3);
-	twoDtree tCopy3(t3);
-	twoDtree t4(origIm4);
-	twoDtree tCopy4(t4);
+	// twoDtree t1(origIm1);
+	// twoDtree tCopy1(t1);
+	// twoDtree t2(origIm2);
+	// twoDtree tCopy2(t2);
+	// twoDtree t3(origIm3);
+	// twoDtree tCopy3(t3);
+	// twoDtree t4(origIm4);
+	// twoDtree tCopy4(t4);
 
-	// prune the twoDtree
-	tCopy1.prune(10000); 
-	tCopy2.prune(10000); 
-	tCopy3.prune(3000); 
-	tCopy4.prune(3000);
+
+	// // prune the twoDtree
+	// tCopy1.prune(10000); 
+	// tCopy2.prune(10000); 
+	// tCopy3.prune(3000); 
+	// tCopy4.prune(3000);
+
 	
 	// render the twoDtree
-	PNG ppic1 = tCopy1.render();
-	PNG ppic2 = tCopy2.render();
-	PNG ppic3 = tCopy3.render();
-	PNG ppic4 = tCopy4.render();
+	// PNG ppic1 = tCopy1.render();
+	// PNG ppic2 = tCopy2.render();
+	// PNG ppic3 = tCopy3.render();
+	// PNG ppic4 = tCopy4.render();
 
 
-	ppic1.writeToFile("images/output-prunedstanleytotem.png");
-	ppic2.writeToFile("images/output-prunedubctotem.png");
-	ppic3.writeToFile("images/output-prunedremb.png");
-	ppic4.writeToFile("images/output-prunedrosa.png");
+	// ppic1.writeToFile("images/output-prunedstanleytotem.png");
+	// ppic2.writeToFile("images/output-prunedubctotem.png");
+	// ppic3.writeToFile("images/output-prunedremb.png");
+	// ppic4.writeToFile("images/output-prunedrosa.png");
+
+	
+	twoDtree t(origIm);
+	twoDtree tCopy(t);
+	// tCopy.prune(10);
+	int inputTol = 500, inputLeaves = 10041;
+	int outputLeaves = tCopy.pruneSize(inputTol);
+	printf("Random: tol = %d, leaves = %d\n", inputTol, outputLeaves);
+	int outputTol = tCopy.idealPrune(inputLeaves);
+	printf("Ideal:  tol = %d, leaves = %d\n", outputTol, inputLeaves);
+	// PNG ppic = tCopy.render();
+	// ppic.writeToFile("images/output/output-colour.png");
+
 
   return 0;
 }

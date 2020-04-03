@@ -18,20 +18,27 @@ stats::stats(PNG &im)
 
     // YOUR CODE HERE!!
 
-    //create vector for each row
-    for (unsigned int i = 0; i < im.width(); i++)
-    {
-        vector<long> temp;
-        sumRed.push_back(temp);
-        sumGreen.push_back(temp);
-        sumBlue.push_back(temp);
-        sumsqRed.push_back(temp);
-        sumsqGreen.push_back(temp);
-        sumsqBlue.push_back(temp);
-    }
+    // //create vector for each row
+    // for (unsigned int i = 0; i < im.width(); i++)
+    // {
+    //     vector<long> temp;
+    //     sumRed.push_back(temp);
+    //     sumGreen.push_back(temp);
+    //     sumBlue.push_back(temp);
+    //     sumsqRed.push_back(temp);
+    //     sumsqGreen.push_back(temp);
+    //     sumsqBlue.push_back(temp);
+    // }
     //initialize each entry with corresponding coordinate's color value
     for (unsigned int i = 0; i < im.width(); i++)
     {
+        sumRed.push_back(vector<long>());
+        sumGreen.push_back(vector<long>());
+        sumBlue.push_back(vector<long>());
+        sumsqRed.push_back(vector<long>());
+        sumsqGreen.push_back(vector<long>());
+        sumsqBlue.push_back(vector<long>());
+        
         for (unsigned int j = 0; j < im.height(); j++)
         {
             sumRed[i].push_back(im.getPixel(i, j)->r);
