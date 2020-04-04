@@ -26,43 +26,42 @@ using namespace cs221util;
     * This file will be used for grading.
  */
 
-class twoDtree {
-// private:
+class twoDtree
+{
+   // private:
 
-//    /**
-//     * The Node class is private to the tree class via the principle of
-//     * encapsulation---the end user does not need to know our node-based
-//     * implementation details. (You may find it useful to make this public
-//     * for debugging.
-//     *
-//     * given for PA3
-//     */
-//    class Node {
-//    public:
-//       Node(pair<int,int> ul, pair<int,int> lr, RGBAPixel a); // Node constructor
+   //    /**
+   //     * The Node class is private to the tree class via the principle of
+   //     * encapsulation---the end user does not need to know our node-based
+   //     * implementation details. (You may find it useful to make this public
+   //     * for debugging.
+   //     *
+   //     * given for PA3
+   //     */
+   //    class Node {
+   //    public:
+   //       Node(pair<int,int> ul, pair<int,int> lr, RGBAPixel a); // Node constructor
 
-//       pair<int,int> upLeft; 
-//       pair<int,int> lowRight;
-//       RGBAPixel avg;
-//       Node * left; // ptr to left subtree
-//       Node * right; // ptr to right subtree
-      
-//    };
-	
-   
+   //       pair<int,int> upLeft;
+   //       pair<int,int> lowRight;
+   //       RGBAPixel avg;
+   //       Node * left; // ptr to left subtree
+   //       Node * right; // ptr to right subtree
+
+   //    };
+
 public:
-
    //TODO: move this back later
-   class Node {
+   class Node
+   {
    public:
-      Node(pair<int,int> ul, pair<int,int> lr, RGBAPixel a); // Node constructor
+      Node(pair<int, int> ul, pair<int, int> lr, RGBAPixel a); // Node constructor
 
-      pair<int,int> upLeft; 
-      pair<int,int> lowRight;
+      pair<int, int> upLeft;
+      pair<int, int> lowRight;
       RGBAPixel avg;
-      Node * left; // ptr to left subtree
-      Node * right; // ptr to right subtree
-      
+      Node *left;  // ptr to left subtree
+      Node *right; // ptr to right subtree
    };
 
    /* =============== start of given functions ====================*/
@@ -86,7 +85,7 @@ public:
        *
        * @param other The twoDtree  we are copying.
     */
-   twoDtree(const twoDtree & other);
+   twoDtree(const twoDtree &other);
 
    /**
        * Overloaded assignment operator for twoDtrees. 
@@ -97,8 +96,7 @@ public:
        *
        * @param rhs The right hand side of the assignment statement.
     */
-   twoDtree & operator=(const twoDtree & rhs);
-
+   twoDtree &operator=(const twoDtree &rhs);
 
    /* =============== end of given functions ====================*/
 
@@ -132,7 +130,7 @@ public:
       * This function will build the stats object used to score the 
       * splitting lines. It will also call helper function buildTree.
     */
-   twoDtree(PNG & imIn);
+   twoDtree(PNG &imIn);
 
    /**
        * Render returns a PNG image consisting of the pixels
@@ -172,7 +170,7 @@ public:
       *    
     */
 
-   int idealPrune (int leaves);
+   int idealPrune(int leaves);
 
    /* =============== end of public PA3 FUNCTIONS =========================*/
 
@@ -184,10 +182,10 @@ private:
        * You may add more if you need them.
     */
 
-   Node* root; // ptr to the root of the twoDtree
+   Node *root; // ptr to the root of the twoDtree
 
    int height; // height of PNG represented by the tree
-   int width; // width of PNG represented by the tree
+   int width;  // width of PNG represented by the tree
 
    /* =================== private PA3 functions ============== */
 
@@ -204,7 +202,7 @@ private:
       * You may want a recursive helper function for this one.
       * @param other The twoDtree to be copied.
    */
-   void copy(const twoDtree & other);
+   void copy(const twoDtree &other);
 
    /**
       * Private helper function for the constructor. Recursively builds
@@ -213,7 +211,7 @@ private:
       * @param ul upper left point of current node's rectangle.
       * @param lr lower right point of current node's rectangle.
    */
-   Node * buildTree(stats & s,pair<int,int> ul, pair<int,int> lr, bool vert);
+   Node *buildTree(stats &s, pair<int, int> ul, pair<int, int> lr, bool vert);
 
    /**
       * Private helper function for Render(). Recursively draws
@@ -221,9 +219,9 @@ private:
       * @param im the PNG to draw with RGB color.
       * @param rt the root of the current subtree.
    */
-   void recurRender(PNG & im, Node * rt);
+   void recurRender(PNG &im, Node *rt);
 
-/**
+   /**
 	   * Private helper function for prune(int tol). Recursively prunes
    	* the leaves that are within tol of average color stored in the given root. 
       * @param tol the tolerance of average color.
@@ -231,9 +229,16 @@ private:
       * @param p the boolean to determine whether to prune the subtree.
       * @param c the boolean to record if the node has been checked (to avoid pruning twice).
    */
-void recurPrune(int tol, Node * rt, bool p, bool chk);
+   void recurPrune(int tol, Node *rt, bool p, bool chk);
 
-/**
+   bool check_tol(Node *rt, int tol, RGBAPixel avg);
+
+   int count_subtree_node_num(Node *rt);
+
+   int recurcount_node_num(Node *rt);
+
+   int recuridealPrune(int l, int r, int leaves);
+   /**
       * Private helper function for pruneSize(int tol). Recursively counts
       * the number of leaves of the pruned tree. 
       * @param tol the tolerance of average color.
@@ -242,21 +247,21 @@ void recurPrune(int tol, Node * rt, bool p, bool chk);
       * @param p the boolean to determine whether to prune the subtree.
       * @param chk the boolean to record if the node has been checked (to avoid pruning twice).
    */
-void recurPruneSize(int tol, Node * rt, int & c, bool p, bool chk);
+   void recurPruneSize(int tol, Node *rt, int &c, bool p, bool chk);
 
    /**
       * Private helper function for clear(). Recursively clears
       * the nodes created in twoDtree class.
       * @param rt the root of the current subtree.
    */
-   void recurClear(Node * rt);
+   void recurClear(Node *rt);
 
    /**
 	   * Private helper function for copy(). Recursively copys
       * the nodes in other twoDtree into the current twoDtree.
       * @param rt The current node to be copied.
    */
-   Node * recurCopy(Node * rt);
+   Node *recurCopy(Node *rt);
 
    /* =================== end of private PA3 functions ============== */
 };

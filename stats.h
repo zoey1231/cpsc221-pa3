@@ -38,15 +38,14 @@ private:
 
 	/* check if given cordinate(x,y) is within the bound of image image
 	*/
-	bool in_bound(PNG image, int x, int y);
-
+	bool in_bound(int width, int height, int x, int y);
 
 public:
 	// initialize the private vectors so that, for each color,  entry
 	// (x,y) is the cumulative sum of the the color values from (0,0)
 	// to (x,y). Similarly, the sumSq vectors are the cumulative
 	// sum of squares from (0,0) to (x,y).
-	stats(PNG &image);
+	stats(PNG &im);
 
 	// given a rectangle, compute its sum of squared deviations from mean, over all color channels.
 	/* @param ul is (x,y) of the upper left corner of the rectangle 

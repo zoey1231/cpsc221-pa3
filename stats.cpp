@@ -4,9 +4,10 @@
 /* check if given cordinate(x,y) is within the bound of image im
  * 
 */
-bool stats::in_bound(PNG im, int x, int y)
+bool stats::in_bound(int width, int height, int x, int y) 
+//modification:passing PNG im as parameter need to copy the image each time we call the function, greatly slow down the process
 {
-    return !(x < 0 || x > (int)im.width() || y < 0 || y > (int)im.height());
+    return !(x < 0 || x > width || y < 0 || y > height);
 }
 
 // initialize the private vectors so that, for each color,  entry
@@ -38,15 +39,15 @@ stats::stats(PNG &im)
         sumsqRed.push_back(vector<long>());
         sumsqGreen.push_back(vector<long>());
         sumsqBlue.push_back(vector<long>());
-        
+
         for (unsigned int j = 0; j < im.height(); j++)
         {
             sumRed[i].push_back(im.getPixel(i, j)->r);
             sumGreen[i].push_back(im.getPixel(i, j)->g);
             sumBlue[i].push_back(im.getPixel(i, j)->b);
-            sumsqRed[i].push_back(pow(im.getPixel(i, j)->r,2));
-            sumsqGreen[i].push_back(pow(im.getPixel(i, j)->g,2));
-            sumsqBlue[i].push_back(pow(im.getPixel(i, j)->b,2));
+            sumsqRed[i].push_back(pow(im.getPixel(i, j)->r, 2));
+            sumsqGreen[i].push_back(pow(im.getPixel(i, j)->g, 2));
+            sumsqBlue[i].push_back(pow(im.getPixel(i, j)->b, 2));
         }
     }
 
@@ -56,7 +57,7 @@ stats::stats(PNG &im)
         for (int j = 0; j < (int)im.height(); j++)
         {
             //check the left cell
-            if (in_bound(im, i - 1, j))
+            if (in_bound(im.width(), im.height(), i - 1, j))
             {
                 sumRed[i][j] += sumRed[i - 1][j];
                 sumGreen[i][j] += sumGreen[i - 1][j];
@@ -66,7 +67,7 @@ stats::stats(PNG &im)
                 sumsqBlue[i][j] += sumsqBlue[i - 1][j];
             }
             //check the top cell
-            if (in_bound(im, i, j - 1))
+            if (in_bound(im.width(), im.height(), i, j - 1))
             {
                 sumRed[i][j] += sumRed[i][j - 1];
                 sumGreen[i][j] += sumGreen[i][j - 1];
@@ -76,7 +77,7 @@ stats::stats(PNG &im)
                 sumsqBlue[i][j] += sumsqBlue[i][j - 1];
             }
             //check the top-left cell
-            if (in_bound(im, i - 1, j - 1))
+            if (in_bound(im.width(), im.height(), i - 1, j - 1))
             {
                 sumRed[i][j] -= sumRed[i - 1][j - 1];
                 sumGreen[i][j] -= sumGreen[i - 1][j - 1];
@@ -157,15 +158,15 @@ long stats::rectArea(pair<int, int> ul, pair<int, int> lr)
 // given a rectangle, compute its sum of squared deviations from mean, over all color channels.
 /* @param ul is (x,y) of the upper left corner of the rectangle 
 * @param lr is (x,y) of the lower right corner of the rectangle */
-long stats::getScore(pair<int, int> ul, pair<int, int> lr){
+long stats::getScore(pair<int, int> ul, pair<int, int> lr)
+{
 
     // YOUR CODE HERE!!
     //Σx∈R(x−x¯)^2=Σx∈Rx^2−(Σx∈Rx)^2/|R|
-    long score_red = getSumSq('r',ul,lr) - getSum('r',ul,lr) * getSum('r',ul,lr) / rectArea(ul,lr);
-    long score_green = getSumSq('g',ul,lr) - getSum('g',ul,lr) * getSum('g',ul,lr) / rectArea(ul,lr);
-    long score_blue = getSumSq('b',ul,lr) - getSum('b',ul,lr) * getSum('b',ul,lr) / rectArea(ul,lr);
+    long score_red = getSumSq('r', ul, lr) - getSum('r', ul, lr) * getSum('r', ul, lr) / rectArea(ul, lr);
+    long score_green = getSumSq('g', ul, lr) - getSum('g', ul, lr) * getSum('g', ul, lr) / rectArea(ul, lr);
+    long score_blue = getSumSq('b', ul, lr) - getSum('b', ul, lr) * getSum('b', ul, lr) / rectArea(ul, lr);
     return score_red + score_green + score_blue;
-
 }
 
 // given a rectangle, return the average color value over the rectangle as a pixel.
@@ -176,10 +177,9 @@ long stats::getScore(pair<int, int> ul, pair<int, int> lr){
 RGBAPixel stats::getAvg(pair<int, int> ul, pair<int, int> lr)
 {
     // YOUR CODE HERE!!
-    int red = getSum('r',ul,lr)/rectArea(ul,lr);
-    int green = getSum('g',ul,lr)/rectArea(ul,lr);
+    int red = getSum('r', ul, lr) / rectArea(ul, lr);
+    int green = getSum('g', ul, lr) / rectArea(ul, lr);
     int blue = getSum('b', ul, lr) / rectArea(ul, lr);
-    RGBAPixel pixel(red,green,blue);
+    RGBAPixel pixel(red, green, blue);
     return pixel;
-
 }
